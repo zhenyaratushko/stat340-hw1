@@ -1,0 +1,121 @@
+---
+title: "Homework 1"
+output: 
+  html_document:
+    self_contained: yes
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = T, eval = T, message = F, warning = F, fig.align = 'center')
+library(tidyverse)
+```
+
+
+## Problem 1 <small>(2pts each, 8pts total)</small>
+
+Here are a few probability exercises to get you warmed up.
+
+a. Consider $X\sim \text{Normal}(5, 2^2)$. Find $P(4 < X < 7)$
+
+```{r}
+q1a_7 = pnorm(7, 5, 2)
+q1a_4 = pnorm(4, 5, 2)
+
+q1a = q1a_7 - q1a_4
+q1a
+```
+
+</br>
+
+b. Suppose you have an uneven 6-sided die where the even numbers are equally likely to occur and the odd numbers are also equally likely. The expected value of the die is $3.3333$ (i.e. $\frac{10}{3})$. What is the probability of getting a 6?
+   (Hint: Let $p$ represent the probability of getting an even number, and represent the probability of the other numbers algebraically. Then derive an expression for the expected value, let it equal $\frac{10}{3}$, and solve. You can go back and check your work by plugging the result back into your original expressions and verify it works with R.)
+
+  - Variables: p (probability of getting an even number), 1 - p (probability of getting an odd number)
+      
+  - Solution: 
+     - 1((1 - p)/3) + 2p/3 + 3((1 - p)/3) + 4p/3 + 5((1 - p)/3) + 6p/3 = 10/3
+     - 1/3 - p/3 + 2p/3 + 1 - p + 4p/3 + 5/3 - 5p/3 + 6p/3 = 10/3
+     - 3 + p = 10/3
+     - p = 1/3, but must be * 1/3 to get 1/9
+   
+   </br>
+   
+c. Give **two examples** of pairs of events that are mutually exclusive and explain why for each.
+
+    - One example of an event that is mutually exclusive is flipping a coin, because one can get heads or tails as a result, but not both at the same time. Another example of an event that is mutually exclusive is taking one piece of fruit from a bowl containing apples and bananas, because one can pull out either an apple or banana, but not both at once.
+
+</br>
+
+d. Give **two examples** of pairs of events that are independent and explain why for each.
+
+    - One example of an event that is independent is flipping a fair coin twice, because the outcome of the second flip is not dependent on the result of the first flip. Another example is pulling out one marble from a bowl containing blue and purple marbles, replacing it, and pulling out another marble, based on the same reasoning that the outcome of the second pull is not dependent on the result of the first pull (since we replaced the first marble).
+
+## Problem 2 <small>(2pts each, 14pts total)</small>
+
+For each of the following scenarios, decide what random variable may be appropriate to use as a model, and explain your reasoning as well as any assumptions you make.
+
+a. The number of patients in an experimental drug trial that respond to treatment.
+
+> In this scenario, the random variable X can represent the number of patients in an experimental drug trial that respond to treatment. This would be an example of a binomial distribution, as this scenario follows the BINS acronym (binary outcomes, independent trials, fixed number of trials, and same probability of success) and because we are measuring the binary outcome of whether or not patients have a response to treatment.
+
+b. The number of red cars you observe driving through an intersection between 10am and 11am.
+
+> In this scenario, the random variable X can represent the number of red cars observed driving through an intersection between 10 am and 11 am. This would be an example of a Poisson distribution, because in this scenario, cars are being counted as "arrivals" during a certain unit of time (a one hour block).
+
+c. What the second hand reads on the clock when you wake up from a long nap (approximately).
+
+> In this scenario, the random variable X can represent what the second hand reads on the clock when you wake up from a long nap (approximately). This would be an example of a discrete uniform distribution, as in this scenario, 60 seconds is a continuous interval, the hand has the same probability of landing on each second, and it is not possible to land on a number that is not whole (ex. the hand will never land on 30.2 as a second).
+
+d. How many people you need to swipe right on Tinder before you get a match.
+
+> In this scenario, the random variable X can represent how many people you need to swipe right on Tinder before you get a match. This would be an example of a geometric distribution, as the number of people who haven't also swiped right on you is counted as the number of failures, with a success only occurring when both parties swipe right.
+
+e. The length of time between mosquito bites a camper experiences while on a hike.
+
+> In this scenario, the random variable X can represent the length of time between mosquito bites a camper experiences while on a hike. This would be an example of an exponential distribution, as this scenario is measuring the wait time between each bite in a Poisson-style event (with one hike being considered a unit of time).
+
+f. Whether the Eagles win the Superbowl this year.
+
+> In this scenario, the random variable X can represent whether the Eagles win the Superbowl this year. This would be an example of a binomial distribution, specifically a Bernoulli one, as it is measuring a "yes" or "no" event (win or loss).
+
+g. The GPA of a randomly selected UW-Madison graduate.
+
+> In this scenario, the random variable X can represent the GPA of a randomly selected UW-Madison graduate. This would be an example of a normal distribution, assuming that this distribution follows a bell-shaped curve and is symmetrical at the mean, because most similar scenarios also have a normal distribution (ex. SAT scores).
+
+## Problem 3 <small>(2pts each, 8pts total)</small>
+
+Below you will find the plot of a probability density function for a random variable $X$.
+
+```{r, echo=FALSE}
+plot(x=c(0,1,2,3), y=c(0,.5,.5,0), type="l", ylab="density", xlab="x", main="pdf of X")
+```
+
+Using just geometry answer a and b:
+
+a. What is $Pr[X < 1]$?
+
+- 1 * 0.5 * 0.5 = 0.25
+
+b. What is $Pr[1.5 < X < 2.5]$
+
+- 0.5 * 0.5 = 0.25, 0.5 * 0.2 = 0.1, 0.3 * 0.5 * 0.5 = 0.075 -> 0.25 + 0.1 + 0.075 = 0.425
+
+c. Consider the CDF given below for random variable $Y$ (we're not naming it $X$ to keep it distinct from parts a and b)
+```{r}
+plot(x = 0:6, y = c(0, .3, .5, .6, .75, .8, 1), type = "s", ylab = "F(y)", xlab = "y", main = "cdf of Y")
+abline(h = seq(.1, .9, .1), lty = 2, col = "gray")
+```
+Express the pmf of $Y$ in the following R code (in other words, fill in the missing probabilities)
+
+```{r}
+y <- 1:6
+py <- c(0.3, 0.2, 0.1, 0.15, 0.05, 0.2) ## edit this line
+barplot(height = py, names = y, main = "pmf of Y")
+```
+d. Calculate $E[Y]$ for the variable $Y$ in part c.
+
+```{r}
+prob = sum(y * py)
+prob
+```
+
